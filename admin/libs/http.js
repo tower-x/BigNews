@@ -1,0 +1,38 @@
+(function (w) {
+    let httpHead = 'http://localhost:8080/api/v1'
+    let bigNew = {
+        user_login: httpHead + '/admin/user/login',
+        user_info: httpHead + '/admin/user/info',
+        user_detail: httpHead + '/admin/user/detail',
+        user_edit: httpHead + '/admin/user/edit',
+        category_list: httpHead + '/admin/category/list',
+        category_add : httpHead + '/admin/category/add',
+        category_search : httpHead + '/admin/category/search',
+        category_edit : httpHead + '/admin/category/edit',
+        category_delete : httpHead + '/admin/category/delete',
+        article_query : httpHead + '/admin/article/query',
+        article_pubish : httpHead + '/admin/article/publish',
+        article_search : httpHead + '/admin/article/search',
+        article_edit : httpHead + '/admin/article/edit',
+        article_delete :httpHead + '/admin/article/delete',
+        data_info : httpHead + '/admin/data/info',
+        data_article : httpHead + '/admin/data/article',
+        data_categroy :httpHead + '/admin/data/category',
+        data_visit: httpHead + '/admin/data/visit',
+        comment_search : httpHead + '/admin/comment/search',
+        comment_pass : httpHead + '/admin/comment/pass',
+        comment_reject : httpHead + '/admin/comment/reject',
+        comment_delete : httpHead + '/admin/comment/delete',
+        index_hotpic : httpHead + '/index/hotpic',
+        index_category : httpHead + '/index/category',
+        index_latest : httpHead + '/index/latest',
+        index_rank : httpHead + '/index/rank',
+        index_latest_comment : httpHead + '/index/latest_comment',
+        index_attention : httpHead + '/index/attention',
+        index_article:httpHead + '/index/article',
+        index_get_comment: httpHead + '/index/get_comment',
+        index_post_comment : httpHead + '/index/post_comment',
+        index_search : httpHead + '/index/search',
+    }
+    w.bigNew = bigNew
+})(window)
