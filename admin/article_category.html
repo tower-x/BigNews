@@ -35,7 +35,8 @@
                         <td>奇趣事</td>
                         <td>funny</td>
                         <td class="text-center">
-                            <a href="javascript:void(0);" data-toggle="modal" class=" btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal"
+                                class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:void(0);" class="btn btn-danger btn-xs">删除</a>
                         </td>
                     </tr>
@@ -51,5 +52,140 @@
             </table>
         </div>
     </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">文章类别管理</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">类别名称:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">类别描述:</label>
+                            <input type="text" class="form-control" id="message-text">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary btn-confirm" data-dismiss="modal">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 引入网络接口 -->
+    <script src="./libs/http.js"></script>
+    <script id="categoryList" type="text/html">
+        {{each data v }}
+        <tr>
+            <td>{{ v.name }}</td>
+            <td>{{ v.slug }}</td>
+            <td class="text-center">
+                <a data-id='{{ v.id}}' href="javascript:void(0);" data-toggle="modal" data-target="#myModal" class=" btn btn-info btn-xs">编辑</a>
+                <a data-id='{{ v.id}}' href="javascript:void(0);" class="btn btn-danger btn-xs btn-del">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+    <script>
+        $(function () {
+            //发送Ajax获取所有分类
+            $.ajax({
+                url: bigNew.category_list,
+                type: 'get',
+                dataType: 'json',
+                success: function (backData) {
+                    // console.log(backData);
+                    //模板渲染
+                    $('tbody').html(template('categoryList', backData))
+                    //模态框弹起事件
+                    $('#myModal').on('show.bs.modal', function (e) {
+
+                        if ($(e.relatedTarget).text() == '编辑') {
+                            $('.btn-confirm').text('编辑')
+                        } else {
+                            $('.btn-confirm').text('新增')
+                        }
+                        $('.modal-body>form')[0].reset()
+                        $('.btn-confirm').click(function () {
+                            if ($(this).text() == '新增') {
+                                //发送新增ajax请求
+                                $.ajax({
+                                    url: bigNew.category_add,
+                                    type: 'post',
+                                    dataType: 'json',
+                                    data: {
+                                        name: $('#recipient-name').val(),
+                                        slug: $('#message-text').val()
+                                    },
+                                    success: function (backData) {
+                                        console.log(backData);
+                                        if (backData.code == 200) {
+                                            alert('增加成功')
+                                        } else {
+                                            alert(backData.msg)
+                                        }
+                                        window.location.reload()
+                                    }
+                                });
+                            } else {
+                                // console.log($(e.relatedTarget).parent().siblings().eq(0));
+                                // let line_name = $(e.relatedTarget).parent().siblings().eq(0).val()
+                                // let line_text = $(e.relatedTarget).parent().siblings().eq(1).val()
+                                // $('#recipient-name').val(line_name)
+                                // $('#message-text').val(line_text)
+                                //发送编辑ajax请求
+                                $.ajax({
+                                    url: bigNew.category_edit,
+                                    type: 'post',
+                                    dataType: 'json',
+                                    data: {
+                                        id: $(e.relatedTarget).attr('data-id'),
+                                        name: $('#recipient-name').val(),
+                                        slug: $('#message-text').val()
+                                    },
+                                    success: function (backData) {
+                                        // console.log(backData);
+                                        if (backData.code == 200) {
+                                            alert('修改成功')
+                                        } else {
+                                            alert(backData.msg)
+                                        }
+                                        window.location.reload()
+                                    }
+                                });
+                            }
+                        })
+                    })
+                    $('.btn-del').click(function () {
+                        // console.log($(this).attr('data-id'));
+                        //发送删除类别ajax请求
+                        if(confirm('确认要删除吗')){
+                            $.ajax({
+                                url: bigNew.category_delete,
+                                type: 'post',
+                                dataType: 'json',
+                                data: {
+                                    id:$(this).attr('data-id')
+                                },
+                                success: function (backData) {
+                                    console.log(backData);
+                                    alert('删除成功')
+                                    window.location.reload()                                  
+                                }
+                            });
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+</body>
 
 </html>
