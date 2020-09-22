@@ -104,86 +104,91 @@
                     // console.log(backData);
                     //模板渲染
                     $('tbody').html(template('categoryList', backData))
-                    //模态框弹起事件
-                    $('#myModal').on('show.bs.modal', function (e) {
 
-                        if ($(e.relatedTarget).text() == '编辑') {
-                            $('.btn-confirm').text('编辑')
-                        } else {
-                            $('.btn-confirm').text('新增')
-                        }
-                        $('.modal-body>form')[0].reset()
-                        $('.btn-confirm').click(function () {
-                            if ($(this).text() == '新增') {
-                                //发送新增ajax请求
-                                $.ajax({
-                                    url: bigNew.category_add,
-                                    type: 'post',
-                                    dataType: 'json',
-                                    data: {
-                                        name: $('#recipient-name').val(),
-                                        slug: $('#message-text').val()
-                                    },
-                                    success: function (backData) {
-                                        console.log(backData);
-                                        if (backData.code == 200) {
-                                            alert('增加成功')
-                                        } else {
-                                            alert(backData.msg)
-                                        }
-                                        window.location.reload()
-                                    }
-                                });
-                            } else {
-                                // console.log($(e.relatedTarget).parent().siblings().eq(0));
-                                // let line_name = $(e.relatedTarget).parent().siblings().eq(0).val()
-                                // let line_text = $(e.relatedTarget).parent().siblings().eq(1).val()
-                                // $('#recipient-name').val(line_name)
-                                // $('#message-text').val(line_text)
-                                //发送编辑ajax请求
-                                $.ajax({
-                                    url: bigNew.category_edit,
-                                    type: 'post',
-                                    dataType: 'json',
-                                    data: {
-                                        id: $(e.relatedTarget).attr('data-id'),
-                                        name: $('#recipient-name').val(),
-                                        slug: $('#message-text').val()
-                                    },
-                                    success: function (backData) {
-                                        // console.log(backData);
-                                        if (backData.code == 200) {
-                                            alert('修改成功')
-                                        } else {
-                                            alert(backData.msg)
-                                        }
-                                        window.location.reload()
-                                    }
-                                });
-                            }
-                        })
-                    })
                     $('.btn-del').click(function () {
                         // console.log($(this).attr('data-id'));
                         //发送删除类别ajax请求
-                        if(confirm('确认要删除吗')){
+                        if (confirm('确认要删除吗')) {
                             $.ajax({
                                 url: bigNew.category_delete,
                                 type: 'post',
                                 dataType: 'json',
                                 data: {
-                                    id:$(this).attr('data-id')
+                                    id: $(this).attr('data-id')
                                 },
                                 success: function (backData) {
                                     console.log(backData);
                                     alert('删除成功')
-                                    window.location.reload()                                  
+                                    window.location.reload()
                                 }
                             });
                         }
                     })
                 }
             });
+            //模态框弹起事件
+            $('#myModal').on('show.bs.modal', function (e) {
+
+                if ($(e.relatedTarget).text() == '新增分类') {
+                    $('.modal-body>form')[0].reset()
+                    $('.btn-confirm').text('新增')
+                } else {
+                    $('.btn-confirm').text('编辑')
+                    $('#recipient-name').val($(e.relatedTarget).parent().siblings().eq(0).text() )
+                    $('#message-text').val( $(e.relatedTarget).parent().siblings().eq(1).text() )
+                    $('.btn-confirm').attr('data-id',$(e.relatedTarget).attr('data-id'))
+                }
+
+            })
+            $('.btn-confirm').click(function () {
+                if ($(this).text() == '新增') {
+                    //发送新增ajax请求
+                    $.ajax({
+                        url: bigNew.category_add,
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            name: $('#recipient-name').val(),
+                            slug: $('#message-text').val()
+                        },
+                        success: function (backData) {
+                            console.log(backData);
+                            if (backData.code == 200) {
+                                alert('增加成功')
+                            } else {
+                                alert(backData.msg)
+                            }
+                            window.location.reload()
+                        }
+                    });
+                } else {
+                    // console.log($(e.relatedTarget).parent().siblings().eq(0));
+                    // let line_name = $(e.relatedTarget).parent().siblings().eq(0).val()
+                    // let line_text = $(e.relatedTarget).parent().siblings().eq(1).val()
+                    // $('#recipient-name').val(line_name)
+                    // $('#message-text').val(line_text)
+                    //发送编辑ajax请求
+                    $.ajax({
+                        url: bigNew.category_edit,
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            id: $(this).attr('data-id'),
+                            name: $('#recipient-name').val(),
+                            slug: $('#message-text').val()
+                        },
+                        success: function (backData) {
+                            // console.log(backData);
+                            if (backData.code == 200) {
+                                alert('修改成功')
+                            } else {
+                                alert(backData.msg)
+                            }
+                            window.location.reload()
+                        }
+                    });
+                }
+            })
         })
     </script>
 </body>

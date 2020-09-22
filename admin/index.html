@@ -80,7 +80,7 @@
             type: 'get',
             dataType: 'json',
             success: function (backData) {
-                console.log(backData);
+                // console.log(backData);
                 //渲染页面
                 $('.user_info>img').attr('src', backData.data.userPic)
                 let nickname = '欢迎 ' + backData.data.nickname
