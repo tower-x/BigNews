@@ -93,7 +93,7 @@
                 <td class="text-center">{{ v.date }}</td>
                 <td class="text-center">{{ v.state}}</td>
                 <td class="text-center">
-                    <a data-id="{{v.id}}" href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+                    <a href="article_edit.html?id={{v.id}}" class="btn btn-default btn-xs">编辑</a>
                     <a data-id="{{v.id}}" href="javascript:void(0);" class="btn btn-danger btn-xs delete">删除</a>
                 </td>
             </tr>
@@ -137,7 +137,7 @@
                         perpage: 10
                     },
                     success: function (backData) {
-                        console.log(backData);
+                        // console.log(backData);
                         $('table>tbody').html(template('article_list', backData))
                         //插入分页
                         //1 清除前期页面
