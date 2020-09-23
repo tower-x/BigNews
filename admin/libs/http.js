@@ -11,7 +11,7 @@
         category_edit : httpHead + '/admin/category/edit',
         category_delete : httpHead + '/admin/category/delete',
         article_query : httpHead + '/admin/article/query',
-        article_pubish : httpHead + '/admin/article/publish',
+        article_publish : httpHead + '/admin/article/publish',
         article_search : httpHead + '/admin/article/search',
         article_edit : httpHead + '/admin/article/edit',
         article_delete :httpHead + '/admin/article/delete',
