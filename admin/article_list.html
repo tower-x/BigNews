@@ -183,6 +183,7 @@
                 }
             })
             //设置分页数据函数
+            
             function showCurrentPage(page) {
                 $.ajax({
                     url: bigNew.article_query,
@@ -199,7 +200,9 @@
                     }
                 })
             }
-        
+            $('#release_btn').click(function(){
+                $('.level02>li:eq(1)',window.parent.document).click()
+            })
 
 
         });
